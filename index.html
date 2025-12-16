@@ -49,7 +49,7 @@ a, a:visited, a:hover, a:active{
   border-radius:50%;
   border:2px solid #ffffff;
   box-shadow:0 0 18px rgba(255,255,255,.4);
-  overflow:hidden;               /* 🔥 CLAVE */
+  overflow:hidden;
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -59,9 +59,10 @@ a, a:visited, a:hover, a:active{
   width:100%;
   height:100%;
   object-fit:cover;
-  transform:scale(1.3);         /* 🔥 SOLO AGRANDA LA M */
+  transform:scale(1.3);
 }
 
+/* INFO */
 h1{
   text-align:center;
   font-size:22px;
@@ -81,6 +82,7 @@ h1{
   cursor:pointer;
 }
 
+/* BANKS */
 .bank{
   background:linear-gradient(145deg,#161616,#0f0f0f);
   border-radius:18px;
@@ -94,18 +96,10 @@ h1{
   animation:haptic .15s ease;
 }
 
-.bank.popular.copiado{
-  box-shadow:0 0 26px rgba(0,86,170,.9);
-}
-.bank.qik.copiado{
-  box-shadow:0 0 26px rgba(0,200,255,.9);
-}
-.bank.banreservas.copiado{
-  box-shadow:0 0 26px rgba(255,145,0,.9);
-}
-.bank.apap.copiado{
-  box-shadow:0 0 26px rgba(255,215,80,.9);
-}
+.bank.popular.copiado{ box-shadow:0 0 26px rgba(0,86,170,.9); }
+.bank.qik.copiado{ box-shadow:0 0 26px rgba(0,200,255,.9); }
+.bank.banreservas.copiado{ box-shadow:0 0 26px rgba(255,145,0,.9); }
+.bank.apap.copiado{ box-shadow:0 0 26px rgba(255,215,80,.9); }
 
 .bank-title{
   display:flex;
@@ -114,23 +108,33 @@ h1{
   margin-bottom:6px;
 }
 
-.bank-title img{
+/* ICONO UNIFICADO */
+.bank-icon{
   width:30px;
   height:30px;
   border-radius:50%;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* LOGOS */
+.bank-icon img{
+  width:100%;
+  height:100%;
   object-fit:cover;
 }
 
-/* Qik con fondo blanco */
-.bank.qik .bank-title img{
+/* AJUSTES FINOS POR BANCO */
+.bank.popular .bank-icon img{ transform:scale(1.25); }
+.bank.qik .bank-icon{
   background:#fff;
-  padding:4px;
 }
+.bank.qik .bank-icon img{ transform:scale(1.15); }
 
-/* Zoom Banreservas */
-.bank.banreservas .bank-title img{
-  transform:scale(1.3);
-}
+.bank.banreservas .bank-icon img{ transform:scale(1.5); } /* 🔥 R grande */
+.bank.apap .bank-icon img{ transform:scale(1.3); }
 
 .bank-title span{
   font-size:16px;
@@ -185,7 +189,7 @@ button:active{
 
   <div class="bank popular">
     <div class="bank-title">
-      <img src="popular.png">
+      <div class="bank-icon"><img src="popular.png"></div>
       <span>Banco Popular</span>
     </div>
     <div class="number">785242512</div>
@@ -194,7 +198,7 @@ button:active{
 
   <div class="bank qik">
     <div class="bank-title">
-      <img src="qik.png">
+      <div class="bank-icon"><img src="qik.png"></div>
       <span>Qik Digital</span>
     </div>
     <div class="number">1008613083</div>
@@ -203,7 +207,7 @@ button:active{
 
   <div class="bank banreservas">
     <div class="bank-title">
-      <img src="banreservas.png">
+      <div class="bank-icon"><img src="banreservas.png"></div>
       <span>Banreservas</span>
     </div>
     <div class="number">9604018382</div>
@@ -212,7 +216,7 @@ button:active{
 
   <div class="bank apap">
     <div class="bank-title">
-      <img src="apap.png">
+      <div class="bank-icon"><img src="apap.png"></div>
       <span>APAP</span>
     </div>
     <div class="number">1033521752</div>
@@ -224,53 +228,22 @@ button:active{
 <script>
 function playClick(){
   try{
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.value = 700;
-    gain.gain.value = 0.05;
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.03);
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const o=ctx.createOscillator();
+    const g=ctx.createGain();
+    o.frequency.value=700;
+    g.gain.value=0.05;
+    o.connect(g);g.connect(ctx.destination);
+    o.start();o.stop(ctx.currentTime+0.03);
   }catch(e){}
 }
 
 function copiar(texto, elemento){
-  if (navigator.vibrate) navigator.vibrate(20);
+  if(navigator.vibrate) navigator.vibrate(20);
   playClick();
   navigator.clipboard.writeText(texto);
-
   elemento.classList.add("copiado");
   setTimeout(()=>elemento.classList.remove("copiado"),1200);
-
-  const aviso=document.createElement("div");
-  aviso.innerText="Copiado ✔️";
-  aviso.style.position="fixed";
-  aviso.style.bottom="14px";
-  aviso.style.left="50%";
-  aviso.style.transform="translate(-50%,20px)";
-  aviso.style.background="linear-gradient(135deg,#1e90ff,#005eff)";
-  aviso.style.color="#fff";
-  aviso.style.padding="10px 18px";
-  aviso.style.borderRadius="20px";
-  aviso.style.fontSize="14px";
-  aviso.style.boxShadow="0 0 20px rgba(30,144,255,.7)";
-  aviso.style.opacity="0";
-  aviso.style.transition="all .35s ease";
-  document.body.appendChild(aviso);
-
-  setTimeout(()=>{
-    aviso.style.opacity="1";
-    aviso.style.transform="translate(-50%,0)";
-  },10);
-
-  setTimeout(()=>{
-    aviso.style.opacity="0";
-    aviso.style.transform="translate(-50%,-10px)";
-    setTimeout(()=>aviso.remove(),300);
-  },1300);
 }
 </script>
 
