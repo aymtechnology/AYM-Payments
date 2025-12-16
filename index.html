@@ -22,6 +22,12 @@ a, a:visited, a:hover, a:active{
   -webkit-tap-highlight-color: transparent;
 }
 
+@keyframes haptic {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+
 .card{
   max-width:420px;
   margin:auto;
@@ -71,6 +77,10 @@ h1{
   transition:box-shadow .3s ease;
 }
 
+.bank.copiado{
+  animation:haptic .15s ease;
+}
+
 .bank.popular.copiado{
   box-shadow:0 0 26px rgba(0,86,170,.9);
 }
@@ -111,7 +121,7 @@ h1{
 .number{
   font-size:18px;
   font-weight:700;
-  color:#fff !important;
+  color:#fff;
   margin-bottom:10px;
   letter-spacing:.5px;
 }
@@ -179,7 +189,6 @@ button:active{
     <button onclick="copiar('9608844071', this.closest('.bank'))">Copiar cuenta</button>
   </div>
 
-  <!-- APAP -->
   <div class="bank apap">
     <div class="bank-title">
       <img src="apap.png">
@@ -192,18 +201,33 @@ button:active{
 </div>
 
 <script>
+function playClick(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = 700;
+    gain.gain.value = 0.05;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.03);
+  }catch(e){}
+}
+
 function copiar(texto, elemento){
 
-  if (navigator.vibrate) {
-    navigator.vibrate(20);
-  }
+  /* Vibración real (Android) */
+  if (navigator.vibrate) navigator.vibrate(20);
+
+  /* Sonido iOS */
+  playClick();
 
   navigator.clipboard.writeText(texto);
 
-  if(elemento.classList){
-    elemento.classList.add("copiado");
-    setTimeout(()=>elemento.classList.remove("copiado"),1200);
-  }
+  elemento.classList.add("copiado");
+  setTimeout(()=>elemento.classList.remove("copiado"),1200);
 
   const aviso=document.createElement("div");
   aviso.innerText="Copiado ✔️";
