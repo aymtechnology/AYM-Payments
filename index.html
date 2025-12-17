@@ -46,7 +46,7 @@ body{
   box-shadow:0 0 40px rgba(0,0,0,.9);
 }
 
-/* ================= LOGO PRINCIPAL ================= */
+/* ================= LOGO ================= */
 
 .logo{
   display:flex;
@@ -74,13 +74,28 @@ body{
 /* ================= INFO ================= */
 
 h1{text-align:center;font-size:22px;margin:10px 0 6px}
-.info{text-align:center;font-size:14px;color:#ccc;margin-bottom:26px}
-.copy-text{color:#fff;font-weight:600;cursor:pointer}
 
-/* ================= BANK ITEM ================= */
+.info{
+  text-align:center;
+  font-size:14px;
+  color:#ccc;
+  margin-bottom:26px;
+}
+
+/* 🔥 FIX DEFINITIVO CÉDULA AZUL */
+.copy-text,
+.copy-text a,
+.copy-text span{
+  color:#fff !important;
+  font-weight:600;
+  text-decoration:none !important;
+  cursor:pointer;
+}
+
+/* ================= BANK ================= */
 
 .bank{
-  background:#0a0a0a; /* 🔥 negro sólido */
+  background:#0a0a0a;
   border-radius:18px;
   padding:14px 16px;
   margin-bottom:14px;
@@ -94,13 +109,12 @@ h1{text-align:center;font-size:22px;margin:10px 0 6px}
 .bank.intro{ animation:introBank .6s ease forwards }
 .bank.copiado{ animation:copyShake .28s ease }
 
-/* Glow por banco */
 .bank.popular.copiado{ box-shadow:0 0 26px rgba(0,86,170,.9) }
 .bank.qik.copiado{ box-shadow:0 0 26px rgba(0,200,255,.9) }
 .bank.banreservas.copiado{ box-shadow:0 0 26px rgba(255,145,0,.9) }
 .bank.apap.copiado{ box-shadow:0 0 26px rgba(255,215,80,.9) }
 
-/* ================= ICONO BANCO ================= */
+/* ================= ICONO ================= */
 
 .bank-icon{
   width:44px;
@@ -120,23 +134,22 @@ h1{text-align:center;font-size:22px;margin:10px 0 6px}
   object-fit:cover;
 }
 
-/* Ajustes individuales */
 .bank.popular .bank-icon{ background:#0a3f7d }
 .bank.qik .bank-icon{ background:#fff }
 .bank.banreservas .bank-icon img{ transform:scale(1.5) }
 .bank.apap .bank-icon img{ transform:scale(1.3) }
 
-/* ================= BOTÓN EN LUGAR DEL NOMBRE ================= */
+/* ================= BOTÓN BLANCO ================= */
 
 .copy-btn{
   flex:1;
   padding:10px 14px;
   border:none;
   border-radius:14px;
-  background:linear-gradient(135deg,#ff9f1c,#ff7a00);
-  color:#fff;
+  background:#fff;
+  color:#000;
   font-size:15px;
-  font-weight:600;
+  font-weight:700;
   cursor:pointer;
   text-align:center;
 }
