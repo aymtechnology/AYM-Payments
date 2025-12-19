@@ -249,20 +249,20 @@ function copiar(texto, el, banco){
   setTimeout(()=>el.classList.remove("copiado"),300);
 
 
- let mensaje = "☑️";
+ let mensaje = "";
   
   if(banco === "popular"){
-    mensaje += "¡Copiado!";
+    mensaje += "COPIADO";
     mostrarToast(mensaje);
     setTimeout(()=>window.location.href="popular://",500);
   }
   else if(banco === "qik"){
-    mensaje += "¡Copiado!";
+    mensaje += "COPIADO";
     mostrarToast(mensaje);
     setTimeout(()=>window.location.href="qik://",500);
   }
   else{
-    mensaje += "¡Copiado!";
+    mensaje += "COPIADO";
     mostrarToast(mensaje);
   }
 }
