@@ -248,6 +248,9 @@ function copiar(texto, el, banco){
   el.classList.add("copiado");
   setTimeout(()=>el.classList.remove("copiado"),300);
 
+
+ let mensaje = "Cuenta copiada. ";
+  
   if(banco === "popular"){
     mensaje += "¡Copiado!";
     mostrarToast(mensaje);
