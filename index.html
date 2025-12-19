@@ -14,7 +14,9 @@ body{
   color:#fff;
 }
 
-*{ -webkit-tap-highlight-color: transparent; }
+*{
+  -webkit-tap-highlight-color: transparent;
+}
 
 /* ================= ANIMACIONES ================= */
 @keyframes copyShake{
@@ -72,16 +74,18 @@ h1{
   margin-bottom:26px;
 }
 
-/* ===== CÉDULA ANTI AZUL iOS ===== */
+/* ===== CÉDULA (SIN RAYA AZUL iOS) ===== */
 .copy-text,
 .copy-text span{
   color:#aaa !important;
   font-weight:600;
   text-decoration:none !important;
+  border-bottom:none !important;
   cursor:pointer;
 }
 .copy-text *{
   color:#aaa !important;
+  text-decoration:none !important;
 }
 
 /* ================= BANK ================= */
@@ -100,19 +104,11 @@ h1{
   animation:copyShake .28s ease;
 }
 
-/* ===== GLOW POR BANCO (RESTAURADO) ===== */
-.bank.popular.copiado{
-  box-shadow:0 0 26px rgba(0,86,170,.9);
-}
-.bank.qik.copiado{
-  box-shadow:0 0 26px rgba(0,200,255,.9);
-}
-.bank.banreservas.copiado{
-  box-shadow:0 0 26px rgba(255,145,0,.9);
-}
-.bank.apap.copiado{
-  box-shadow:0 0 26px rgba(255,215,80,.9);
-}
+/* ===== GLOW POR BANCO ===== */
+.bank.popular.copiado{ box-shadow:0 0 26px rgba(0,86,170,.9); }
+.bank.qik.copiado{ box-shadow:0 0 26px rgba(0,200,255,.9); }
+.bank.banreservas.copiado{ box-shadow:0 0 26px rgba(255,145,0,.9); }
+.bank.apap.copiado{ box-shadow:0 0 26px rgba(255,215,80,.9); }
 
 /* ================= ICONOS ================= */
 .bank-icon{
@@ -130,6 +126,11 @@ h1{
   width:100%;
   height:100%;
   object-fit:cover;
+}
+
+/* 🔧 AJUSTE EDITABLE SOLO PARA BANRESERVAS */
+.bank.banreservas .bank-icon img{
+  transform:scale(1.4); /* ← CAMBIA ESTE VALOR SI QUIERES MÁS O MENOS ZOOM */
 }
 
 /* ================= BOTÓN ================= */
@@ -231,8 +232,9 @@ h1{
     </button>
   </div>
 
+  <!-- FOOTER -->
   <div class="footer-text">
-    🔒 Transfiere rápido y seguro con un solo toque
+    Rápido y seguro con un toque
   </div>
 
 </div>
@@ -241,7 +243,6 @@ h1{
 function copiar(texto, el, banco){
   navigator.clipboard.writeText(texto);
 
-  /* vibración + glow */
   el.classList.remove("copiado");
   void el.offsetWidth;
   el.classList.add("copiado");
