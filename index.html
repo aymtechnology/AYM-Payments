@@ -17,7 +17,6 @@ body{
 *{ -webkit-tap-highlight-color: transparent; }
 
 /* ================= ANIMACIONES ================= */
-
 @keyframes copyShake{
   0%{transform:translateX(0)}
   25%{transform:translateX(-7px)}
@@ -27,7 +26,6 @@ body{
 }
 
 /* ================= CARD ================= */
-
 .card{
   max-width:420px;
   margin:auto;
@@ -38,13 +36,11 @@ body{
 }
 
 /* ================= LOGO ================= */
-
 .logo{
   display:flex;
   justify-content:center;
   margin-bottom:18px;
 }
-
 .logo-circle{
   width:110px;
   height:110px;
@@ -56,7 +52,6 @@ body{
   align-items:center;
   justify-content:center;
 }
-
 .logo-circle img{
   width:100%;
   height:100%;
@@ -65,13 +60,11 @@ body{
 }
 
 /* ================= INFO ================= */
-
 h1{
   text-align:center;
   font-size:22px;
   margin:10px 0 6px;
 }
-
 .info{
   text-align:center;
   font-size:14px;
@@ -79,18 +72,17 @@ h1{
   margin-bottom:26px;
 }
 
-/* FIX DEFINITIVO iOS AZUL */
+/* MANTENER NÚMEROS AZULES */
 .copy-text,
 .copy-text a,
 .copy-text span{
-  color:#fff !important;
+  color:#4da3ff !important;
   font-weight:600;
   text-decoration:none !important;
   cursor:pointer;
 }
 
 /* ================= BANK ================= */
-
 .bank{
   background:#0a0a0a;
   border-radius:18px;
@@ -101,18 +93,11 @@ h1{
   align-items:center;
   gap:16px;
 }
-
 .bank.copiado{
   animation:copyShake .28s ease;
 }
 
-.bank.popular.copiado{ box-shadow:0 0 26px rgba(0,86,170,.9) }
-.bank.qik.copiado{ box-shadow:0 0 26px rgba(0,200,255,.9) }
-.bank.banreservas.copiado{ box-shadow:0 0 26px rgba(255,145,0,.9) }
-.bank.apap.copiado{ box-shadow:0 0 26px rgba(255,215,80,.9) }
-
 /* ================= ICONOS ================= */
-
 .bank-icon{
   width:58px;
   height:58px;
@@ -124,21 +109,13 @@ h1{
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
   flex-shrink:0;
 }
-
 .bank-icon img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-/* AJUSTES POR BANCO */
-.bank.popular .bank-icon{ background:#0a3f7d }
-.bank.qik .bank-icon{ background:#fff }
-.bank.banreservas .bank-icon img{ transform:scale(1.5) }
-.bank.apap .bank-icon img{ transform:scale(1.3) }
-
 /* ================= BOTÓN ================= */
-
 .copy-btn{
   flex:1;
   padding:12px 14px;
@@ -149,11 +126,34 @@ h1{
   font-size:15px;
   font-weight:700;
   cursor:pointer;
-  text-align:center;
 }
+.copy-btn:active{ transform:scale(.96); }
 
-.copy-btn:active{
-  transform:scale(.96);
+/* ================= TOAST ================= */
+.toast{
+  position:fixed;
+  bottom:20px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#111;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:16px;
+  font-size:14px;
+  box-shadow:0 0 20px rgba(0,0,0,.8);
+  opacity:0;
+  transition:opacity .3s ease;
+  z-index:9999;
+}
+.toast.show{ opacity:1; }
+
+/* ================= FOOTER ================= */
+.footer-text{
+  margin-top:22px;
+  text-align:center;
+  font-size:12px;
+  color:#888;
+  letter-spacing:.3px;
 }
 </style>
 </head>
@@ -178,43 +178,87 @@ h1{
     </span>
   </div>
 
+  <!-- POPULAR -->
   <div class="bank popular">
     <div class="bank-icon"><img src="popular.png"></div>
-    <button class="copy-btn" onclick="copiar('785242512',this.closest('.bank'))">
+    <button class="copy-btn"
+      onclick="copiar('785242512',this.closest('.bank'),'popular')">
       Copiar cuenta
     </button>
   </div>
 
+  <!-- QIK -->
   <div class="bank qik">
     <div class="bank-icon"><img src="qik.png"></div>
-    <button class="copy-btn" onclick="copiar('1008613083',this.closest('.bank'))">
+    <button class="copy-btn"
+      onclick="copiar('1008613083',this.closest('.bank'),'qik')">
       Copiar cuenta
     </button>
   </div>
 
+  <!-- BANRESERVAS -->
   <div class="bank banreservas">
     <div class="bank-icon"><img src="banreservas.png"></div>
-    <button class="copy-btn" onclick="copiar('9604018382',this.closest('.bank'))">
+    <button class="copy-btn"
+      onclick="copiar('9604018382',this.closest('.bank'),'banreservas')">
       Copiar cuenta
     </button>
   </div>
 
+  <!-- APAP -->
   <div class="bank apap">
     <div class="bank-icon"><img src="apap.png"></div>
-    <button class="copy-btn" onclick="copiar('1033521752',this.closest('.bank'))">
+    <button class="copy-btn"
+      onclick="copiar('1033521752',this.closest('.bank'),'apap')">
       Copiar cuenta
     </button>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-text">
+    🔒 Transfiere rápido y seguro con un solo toque
   </div>
 
 </div>
 
 <script>
-function copiar(texto, el){
+function copiar(texto, el, banco){
   navigator.clipboard.writeText(texto);
+
+  /* vibración intacta */
   el.classList.remove("copiado");
   void el.offsetWidth;
   el.classList.add("copiado");
   setTimeout(()=>el.classList.remove("copiado"),300);
+
+  let mensaje = "Cuenta copiada. ";
+
+  if(banco === "popular"){
+    mensaje += "Abriendo tu banco para realizar el pago.";
+    mostrarToast(mensaje);
+    setTimeout(()=>window.location.href="popular://",500);
+  }
+  else if(banco === "qik"){
+    mensaje += "Abriendo tu banco para realizar el pago.";
+    mostrarToast(mensaje);
+    setTimeout(()=>window.location.href="qik://",500);
+  }
+  else{
+    mensaje += "Abre tu banco para realizar el pago.";
+    mostrarToast(mensaje);
+  }
+}
+
+function mostrarToast(texto){
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerText = texto;
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.classList.add("show"),10);
+  setTimeout(()=>{
+    toast.classList.remove("show");
+    setTimeout(()=>toast.remove(),300);
+  },2500);
 }
 </script>
 
